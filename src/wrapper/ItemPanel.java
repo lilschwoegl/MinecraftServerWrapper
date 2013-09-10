@@ -27,8 +27,7 @@ public class ItemPanel extends JPanel implements MouseListener, MouseMotionListe
     private Item item;
     
     MouseListener ml;
-    private DragGestureRecognizer dgr;
-    private DragGestureHandler dragGestureHandler;
+
     protected Point anchorPoint;
     
     public ItemPanel()
@@ -89,52 +88,22 @@ public class ItemPanel extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mouseDragged(MouseEvent me) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//         int anchorX = anchorPoint.x;
-//                int anchorY = anchorPoint.y;
-//
-//                Point parentOnScreen = getParent().getLocationOnScreen();
-//                Point mouseOnScreen = me.getLocationOnScreen();
-//                Point position = new Point(mouseOnScreen.x - parentOnScreen.x - 
-//		anchorX, mouseOnScreen.y - parentOnScreen.y - anchorY);
-//                setLocation(position);
+         int anchorX = anchorPoint.x;
+                int anchorY = anchorPoint.y;
+
+                Point parentOnScreen = getParent().getLocationOnScreen();
+                Point mouseOnScreen = me.getLocationOnScreen();
+                Point position = new Point(mouseOnScreen.x - parentOnScreen.x - 
+		anchorX, mouseOnScreen.y - parentOnScreen.y - anchorY);
+                setLocation(position);
     }
 
     @Override
     public void mouseMoved(MouseEvent me) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //anchorPoint = me.getPoint();
+        anchorPoint = me.getPoint();
+        
     }
     
-    @Override
-    public void addNotify() {
-
-        super.addNotify();
-
-        if (dgr == null) {
-
-            dragGestureHandler = new DragGestureHandler(this);
-            dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(
-                    this,
-                    DnDConstants.ACTION_MOVE,
-                    dragGestureHandler);
-
-        }
-
-    }
-
-    @Override
-    public void removeNotify() {
-
-        if (dgr != null) {
-
-            dgr.removeDragGestureListener(dragGestureHandler);
-            dragGestureHandler = null;
-
-        }
-
-        dgr = null;
-
-        super.removeNotify();
-
-    }
+    
 }

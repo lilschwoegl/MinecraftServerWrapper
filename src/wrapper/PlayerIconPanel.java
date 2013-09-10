@@ -16,8 +16,7 @@ import java.awt.dnd.DropTarget;
 public class PlayerIconPanel extends javax.swing.JPanel {
 
     Player player;
-    DropTarget dropTarget;
-    DropHandler dropHandler;
+
     
     
     
@@ -48,19 +47,7 @@ public class PlayerIconPanel extends javax.swing.JPanel {
         g.drawString(player.getName(), 0, (int)h/2);
         
     }
-    
-    @Override
-    public void addNotify()
-    {
-        dropHandler = new DropHandler();
-        dropTarget = new DropTarget(this, DnDConstants.ACTION_MOVE, dropHandler, true);
-    
-    }
-    
-    public void removeNotify()
-    {
-        dropTarget.removeDropTargetListener(dropHandler);
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
