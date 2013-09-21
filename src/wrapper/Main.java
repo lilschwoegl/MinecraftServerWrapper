@@ -30,6 +30,7 @@ public class Main extends javax.swing.JFrame {
     InputWrapper inputWrap;
     PlayerManager playerManager;
     IDs ids;
+    ItemPanelDragController itemController;
 
     /**
      * Creates new form Main
@@ -40,6 +41,8 @@ playerManager = new PlayerManager(5, this);
         
 
             ids = new IDs();
+            
+            itemController = new ItemPanelDragController(this);
 
 
     }
@@ -162,17 +165,16 @@ playerManager = new PlayerManager(5, this);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField1)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
                         .addGap(4, 4, 4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(itemPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGap(73, 73, 73)
                         .addComponent(playerIconPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

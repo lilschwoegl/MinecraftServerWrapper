@@ -24,8 +24,8 @@ import javax.swing.JPanel;
  * @author Mike
  */
 public class ItemPanel extends JPanel implements MouseListener, MouseMotionListener{
-    private Item item;
     
+    private Item item;
     MouseListener ml;
 
     protected Point anchorPoint;
@@ -43,6 +43,16 @@ public class ItemPanel extends JPanel implements MouseListener, MouseMotionListe
         
         this.setSize(64, 64);
         this.setVisible(true);
+    }
+    
+    public ItemPanel(ItemPanel panel)
+    {
+        this(panel.getItem());
+    }
+    
+    public Item getItem()
+    {
+        return item;
     }
     
     @Override
@@ -88,7 +98,9 @@ public class ItemPanel extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mouseDragged(MouseEvent me) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         int anchorX = anchorPoint.x;
+                ItemPanelDragController.panel = this;
+        
+                int anchorX = anchorPoint.x;
                 int anchorY = anchorPoint.y;
 
                 Point parentOnScreen = getParent().getLocationOnScreen();
