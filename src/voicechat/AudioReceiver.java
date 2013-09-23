@@ -42,6 +42,11 @@ public class AudioReceiver extends Thread {
         this("localhost", 4444);
     }
     
+    public AudioReceiver(int port)
+    {
+        this("localhost", port);
+    }
+    
     public AudioReceiver(String host, int port)
     {
         try {

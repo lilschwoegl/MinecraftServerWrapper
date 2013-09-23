@@ -24,9 +24,9 @@ import javax.sound.sampled.TargetDataLine;
  *
  * @author Mike
  */
-public class AudioSender extends Thread {
+public class AudioServer extends Thread {
 
-    ServerSocket serverSocket;
+    Socket socket;
     BufferedInputStream in;
     TargetDataLine targetDataLine;
     BufferedOutputStream out;
@@ -34,13 +34,13 @@ public class AudioSender extends Thread {
     AudioFormat audioFormat;
     SourceDataLine sourceDataLine;
     byte tempBuffer[] = new byte[1000];
-    Socket clientSocket;
 
-    public AudioSender() throws LineUnavailableException {
-        this(4444);
-    }
-
-    public AudioSender(int port) throws LineUnavailableException {
+//    public AudioServer() throws LineUnavailableException {
+//        this(4444);
+//    }
+    
+    public AudioServer(Socket socket) throws LineUnavailableException
+    {
         System.out.println("created");
         try {
             audioFormat = getAudioFormat();
@@ -48,14 +48,15 @@ public class AudioSender extends Thread {
             sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
             sourceDataLine.open(audioFormat);
             sourceDataLine.start();
+            this.socket = socket;
             
-            serverSocket = new ServerSocket(port);
-            clientSocket = serverSocket.accept();
+            //serverSocket = new ServerSocket(port);
+            //clientSocket = serverSocket.accept();
             
             captureAudio();
             
-            in = new BufferedInputStream(clientSocket.getInputStream());
-            out = new BufferedOutputStream(clientSocket.getOutputStream());
+            in = new BufferedInputStream(socket.getInputStream());
+            out = new BufferedOutputStream(socket.getOutputStream());
             // set up interaction w/clients
 
             SenderListener sl = new SenderListener(in, sourceDataLine);
@@ -67,8 +68,35 @@ public class AudioSender extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
+
+//    public AudioServer(int port) throws LineUnavailableException {
+//        System.out.println("created");
+//        try {
+//            audioFormat = getAudioFormat();
+//            DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
+//            sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
+//            sourceDataLine.open(audioFormat);
+//            sourceDataLine.start();
+//
+//            
+//            captureAudio();
+//            
+//            in = new BufferedInputStream(clientSocket.getInputStream());
+//            out = new BufferedOutputStream(clientSocket.getOutputStream());
+//            // set up interaction w/clients
+//
+//            SenderListener sl = new SenderListener(in, sourceDataLine);
+//            sl.start();
+//            
+//            //while (in.read(tempBuffer) != -1) {
+//            //    sourceDataLine.write(tempBuffer, 0, 1000);
+//            //}
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        
+//    }
 
     private AudioFormat getAudioFormat() {
         float sampleRate = 8000.0F;

@@ -35,7 +35,7 @@ public class Main extends javax.swing.JFrame {
     IDs ids;
     ItemPanelDragController itemController;
     Server server;
-    AudioSender as;
+    AudioMultiServer as;
     AudioReceiver ar;
 
     /**
@@ -84,6 +84,7 @@ playerManager = new PlayerManager(5, this);
         jButton10 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -233,12 +234,9 @@ playerManager = new PlayerManager(5, this);
             }
         });
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(jList2);
+
+        jTextField3.setText("4444");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -260,7 +258,9 @@ playerManager = new PlayerManager(5, this);
                                 .addComponent(playerIconPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
+                        .addGap(37, 37, 37)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10)
@@ -309,7 +309,8 @@ playerManager = new PlayerManager(5, this);
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButton9)
-                                    .addComponent(jButton10))))
+                                    .addComponent(jButton10)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -451,8 +452,8 @@ playerManager = new PlayerManager(5, this);
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             // TODO add your handling code here:
-            as = new AudioSender();
-        } catch (LineUnavailableException ex) {
+            as = new AudioMultiServer(Integer.parseInt(jTextField3.getText()), this);
+        } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         as.start();
@@ -461,7 +462,7 @@ playerManager = new PlayerManager(5, this);
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
        
             // TODO add your handling code here:
-            ar = new AudioReceiver();
+            ar = new AudioReceiver(Integer.parseInt(jTextField3.getText()));
         
         ar.start();
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -567,6 +568,7 @@ playerManager = new PlayerManager(5, this);
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private wrapper.PlayerIconPanel playerIconPanel1;
     // End of variables declaration//GEN-END:variables
 }
