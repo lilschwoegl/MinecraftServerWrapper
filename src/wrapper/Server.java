@@ -6,6 +6,8 @@ package wrapper;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,29 +15,54 @@ import java.util.logging.Logger;
  *
  * @author Mike
  */
-public class Server extends Thread{
+public class Server extends Thread implements Stoppable{
 
     ServerSocket serverSocket;
     boolean running = true;
+    ArrayList<ServerThread> clients;
+    Main parent;
     
-    public Server() throws IOException
+    public Server(Main parent) throws IOException
     {
-        this(new ServerSocket(4444));
+        this(new ServerSocket(4444), parent);
     }
     
-    public Server(ServerSocket serverSocket)
+    public Server(ServerSocket serverSocket, Main parent)
     {
         this.serverSocket = serverSocket;
+        this.parent = parent;
+        clients = new ArrayList<ServerThread>();
+    }
+    
+    public void printClients()
+    {
+        for (ServerThread t : clients)
+        {
+            System.out.println(t.username + ": " + t.getIP() + ":" + t.getPort());
+        }
+    }
+    
+    public ArrayList<ServerThread> getClients()
+    {
+        return clients;
     }
     
     @Override
     public void run() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
+        System.out.println("Server started on port " + serverSocket.getLocalPort());
+        
         while (running)
         {
             try {
-                new ServerThread(serverSocket.accept()).start();
+           
+                Socket socket = serverSocket.accept();
+                ServerThread t = new ServerThread(socket);
+                clients.add(t);
+                t.start();
+                parent.refreshClientList();
+                
             } catch (IOException ex) {
                 System.err.println("Could not listen on port: " + serverSocket.getLocalPort());
             }
@@ -44,6 +71,17 @@ public class Server extends Thread{
             serverSocket.close();
         } catch (IOException ex) {
                 System.err.println("Could not close on port: " + serverSocket.getLocalPort());
+        }
+    }
+
+    @Override
+    public void closePorts() {
+        try {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
