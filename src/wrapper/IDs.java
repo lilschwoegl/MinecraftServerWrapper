@@ -29,7 +29,8 @@ public class IDs {
     public IDs()
     {
         try {
-            fr = new FileReader("C:\\Users\\Mike\\Desktop\\items.txt");
+            //fr = new FileReader("C:\\Users\\Mike\\Desktop\\items.txt");
+            fr = new FileReader(getClass().getResource("/files/items.txt").getPath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(IDs.class.getName()).log(Level.SEVERE, null, ex);
         }
