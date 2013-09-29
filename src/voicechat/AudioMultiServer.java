@@ -40,7 +40,14 @@ public class AudioMultiServer extends Thread{
     {
         this.serverSocket = serverSocket;
         this.parent = parent;
-        room = new ChatRoom(serverSocket.getLocalPort(), "Test Room");
+        room = new ChatRoom(serverSocket.getLocalPort(), "Test Room", "testName");
+        ServerPortController.addRoom(room);
+        parent.refreshChatRoomList();
+    }
+    
+    public ChatRoom getRoom()
+    {
+        return room;
     }
     
     public void run()
@@ -50,7 +57,7 @@ public class AudioMultiServer extends Thread{
         {
             try {
                 Socket socket = serverSocket.accept();
-                AudioServer as = new AudioServer(socket);
+                AudioServer as = new AudioServer(socket, room);
                 room.addMember(as);
                 as.start();
                 System.out.println("Client connected " + serverSocket.getLocalPort());

@@ -36,6 +36,11 @@ public class Client extends Thread implements Stoppable {
     public Client(String server, int port, String username) throws UnknownHostException, IOException {
         this(new Socket(server, port), username);
     }
+    
+    public Client(int port, String username) throws UnknownHostException, IOException
+    {
+        this(new Socket("localhost", port), username);
+    }
 
     public Client(Socket clientSocket, String username) {
         try {
@@ -51,6 +56,14 @@ public class Client extends Thread implements Stoppable {
     public String getIP()
     {
         return clientSocket.getInetAddress().getHostAddress();
+    }
+    
+    // Formatting:
+    // startnewchatroom <port> <name>
+    public void sayToServer(String say)
+    {
+        out.println("<" + username + "> " + say);
+        
     }
 
     public int getPort() {
@@ -78,7 +91,7 @@ public class Client extends Thread implements Stoppable {
 
         try {
             while ((fromServer = in.readLine()) != null) {
-                //System.out.println("Client: " + fromServer);
+                System.out.println(fromServer);
                  //System.out.println("Client: " + stdIn.readLine());
                // out.println(stdIn.readLine());
             }
